@@ -1671,3 +1671,63 @@ body.dark-theme .ayah-span.active-ayah {
         animation: none !important;
     }
 }
+
+/* --- تعديلات وضع الاستماع الهادئ --- */
+
+/* إخفاء المشغل السفلي الرئيسي عند فتح الاستماع الهادئ */
+body:has(.reading-view.show) #global-player {
+    display: none !important;
+}
+
+/* تكبير إطار اسم السورة/الجزء ليكون بارزاً وأكبر ارتفاعاً */
+.surah-divider {
+    margin: 40px 0 25px;
+    padding: 16px 20px;
+    font-size: 1.35rem;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+.surah-divider::before, .surah-divider::after {
+    display: none; /* إزالة الخطوط الجانبية للحصول على شكل إطار نظيف */
+}
+
+/* تصميم الزر العائم الذكي */
+.draggable-float-btn {
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: var(--accent-gold);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(184, 147, 62, 0.4);
+    z-index: 10000;
+    cursor: grab;
+    touch-action: none; /* ضروري لمنع التمرير الافتراضي أثناء السحب على الجوال */
+    transition: background 0.3s, opacity 0.3s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.reading-view.show .draggable-float-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.draggable-float-btn svg {
+    width: 26px;
+    height: 26px;
+    pointer-events: none; /* لمنع تداخل الأحداث أثناء الضغط */
+}
+
+.draggable-float-btn.dragging {
+    cursor: grabbing;
+    box-shadow: 0 12px 30px rgba(184, 147, 62, 0.6);
+    background: var(--accent-hover);
+}

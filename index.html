@@ -15,7 +15,7 @@
     <meta name="apple-mobile-web-app-title" content="مصحف الأمة">
     
     <link rel="apple-touch-icon" href="icon.png">
-    <link rel="manifest" href="manifest.json"> <!-- تم التأكد من وجود سطر المانيفست -->
+    <link rel="manifest" href="manifest.json">
 
     <!-- الخطوط -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -139,23 +139,20 @@
 
     <!-- شاشة القراءة والمزامنة -->
     <div id="reading-view" class="reading-view" role="region" aria-label="عرض النص القرآني">
-        <div class="reading-top-bar">
-            <button class="reading-back-btn" id="reading-back-btn" onclick="closeReadingView()" aria-label="رجوع">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
-            <div class="reading-titles">
-                <div class="reading-juz-title" id="reading-juz-title"></div>
-                <div class="reading-surah-title" id="reading-surah-title"></div>
-            </div>
-            <div class="reading-back-btn" aria-hidden="true" style="visibility:hidden"></div>
-        </div>
-
+        
+        <!-- تم إزالة الشريط العلوي بالكامل -->
+        
         <div class="ayat-scroll" id="ayat-scroll">
             <div class="reading-loading" id="reading-loading">
                 <svg class="loading-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
                 <span id="reading-loading-text">جاري تحميل النص...</span>
             </div>
             <div class="ayat-container" id="ayat-container"></div>
+        </div>
+
+        <!-- زر التشغيل العائم القابل للسحب -->
+        <div id="floating-play-btn" class="draggable-float-btn" aria-label="تشغيل / إيقاف">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
         </div>
     </div>
 
