@@ -1674,9 +1674,50 @@ body.dark-theme .ayah-span.active-ayah {
 
 /* --- تعديلات وضع الاستماع الهادئ --- */
 
-/* إخفاء المشغل السفلي الرئيسي عند فتح الاستماع الهادئ */
+/* عرض نسخة مصغّرة ونحيفة من المشغل السفلي الرئيسي عند فتح الاستماع الهادئ (شاشة القراءة) */
 body:has(.reading-view.show) #global-player {
-    display: none !important;
+    padding: 6px 14px 8px;
+}
+
+body:has(.reading-view.show) #global-player .player-seekbar-container {
+    height: 10px;
+    margin-bottom: 2px;
+}
+
+body:has(.reading-view.show) #global-player .player-info-row {
+    margin-bottom: 2px;
+}
+
+body:has(.reading-view.show) #global-player .player-track-title {
+    font-size: 0.72rem;
+}
+
+body:has(.reading-view.show) #global-player .player-time {
+    font-size: 0.6rem;
+}
+
+body:has(.reading-view.show) #global-player .player-main-controls {
+    gap: 12px;
+}
+
+body:has(.reading-view.show) #global-player .play-toggle-btn {
+    width: 32px;
+    height: 32px;
+}
+
+body:has(.reading-view.show) #global-player .play-toggle-btn svg {
+    width: 15px !important;
+    height: 15px !important;
+}
+
+body:has(.reading-view.show) #global-player .nav-btn svg {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+body:has(.reading-view.show) #global-player .playback-mode-btn {
+    padding: 3px 6px;
+    font-size: 0.6rem;
 }
 
 /* تكبير إطار اسم السورة/الجزء ليكون بارزاً وأكبر ارتفاعاً */
@@ -1693,41 +1734,3 @@ body:has(.reading-view.show) #global-player {
     display: none; /* إزالة الخطوط الجانبية للحصول على شكل إطار نظيف */
 }
 
-/* تصميم الزر العائم الذكي */
-.draggable-float-btn {
-    position: fixed;
-    bottom: 40px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
-    background: var(--accent-gold);
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 6px 20px rgba(184, 147, 62, 0.4);
-    z-index: 10000;
-    cursor: grab;
-    touch-action: none; /* ضروري لمنع التمرير الافتراضي أثناء السحب على الجوال */
-    transition: background 0.3s, opacity 0.3s;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.reading-view.show .draggable-float-btn {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.draggable-float-btn svg {
-    width: 26px;
-    height: 26px;
-    pointer-events: none; /* لمنع تداخل الأحداث أثناء الضغط */
-}
-
-.draggable-float-btn.dragging {
-    cursor: grabbing;
-    box-shadow: 0 12px 30px rgba(184, 147, 62, 0.6);
-    background: var(--accent-hover);
-}

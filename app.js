@@ -540,7 +540,7 @@ function renderSurahsList() {
         
         return `
             <div class="surah-row" data-id="${s.id}">
-                <div class="surah-info" onclick="openReadingJuz(${s.id}, '${s.url}')" role="button" tabindex="0" style="cursor:pointer;">
+                <div class="surah-info" onclick="playRowAudio(${s.id}, '${s.url}')" role="button" tabindex="0" aria-label="تشغيل ${displayName}" style="cursor:pointer;">
                     <span class="surah-number">${String(s.id).padStart(3, '0')}</span>
                     <span class="surah-name">${displayName}</span>
                 </div>
@@ -646,12 +646,6 @@ function syncUIWithAudioState() {
     if (playBtn) {
         playBtn.innerHTML = statusIcon;
         playBtn.setAttribute('aria-label', isPlaying ? 'إيقاف مؤقت' : 'تشغيل');
-    }
-
-    // التعديل الجديد: تحديث أيقونة الزر العائم
-    const floatPlayBtn = document.getElementById('floating-play-btn');
-    if (floatPlayBtn) {
-        floatPlayBtn.innerHTML = statusIcon;
     }
 
     const headerEq = document.getElementById('header-equalizer');
@@ -1737,80 +1731,3 @@ togglePlayPause = function (...args) {
     }
 })();
 
-/* ================================================
-   نظام سحب زر التشغيل العائم (الضغط المطول)
-   ================================================ */
-const floatPlayBtn = document.getElementById('floating-play-btn');
-
-if (floatPlayBtn) {
-    let isDraggingBtn = false;
-    let isLongPress = false;
-    let pressTimer;
-    let currentX, currentY, initialX, initialY;
-    let xOffset = 0, yOffset = 0;
-
-    const dragStart = (e) => {
-        if (e.type === 'touchstart') {
-            initialX = e.touches[0].clientX - xOffset;
-            initialY = e.touches[0].clientY - yOffset;
-        } else {
-            initialX = e.clientX - xOffset;
-            initialY = e.clientY - yOffset;
-        }
-
-        isLongPress = false;
-        // تفعيل وضع السحب فقط بعد ضغط مطول مدته 350 ملي ثانية
-        pressTimer = setTimeout(() => {
-            isLongPress = true;
-            isDraggingBtn = true;
-            floatPlayBtn.classList.add('dragging');
-            floatPlayBtn.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0) scale(1.1)`;
-        }, 350);
-    };
-
-    const dragEnd = (e) => {
-        clearTimeout(pressTimer);
-        
-        // إذا رفع إصبعه قبل انتهاء وقت الضغط المطول، فهذا يعني أنه "نقر" لغرض التشغيل/الإيقاف
-        if (!isLongPress && !isDraggingBtn) {
-            togglePlayPause(false); 
-        }
-        
-        isDraggingBtn = false;
-        isLongPress = false;
-        floatPlayBtn.classList.remove('dragging');
-        floatPlayBtn.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0) scale(1)`;
-    };
-
-    const drag = (e) => {
-        if (!isDraggingBtn) {
-            // إذا تحرك المستخدم قبل انتهاء وقت الضغط المطول، نلغي المؤقت (لتفادي تحوله لسحب بالخطأ أثناء التمرير)
-            clearTimeout(pressTimer);
-            return;
-        }
-        e.preventDefault(); // منع تمرير الصفحة أثناء سحب الزر
-        
-        if (e.type === 'touchmove') {
-            currentX = e.touches[0].clientX - initialX;
-            currentY = e.touches[0].clientY - initialY;
-        } else {
-            currentX = e.clientX - initialX;
-            currentY = e.clientY - initialY;
-        }
-
-        xOffset = currentX;
-        yOffset = currentY;
-        
-        floatPlayBtn.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scale(1.1)`;
-    };
-
-    // ربط الأحداث
-    floatPlayBtn.addEventListener('mousedown', dragStart);
-    floatPlayBtn.addEventListener('touchstart', dragStart, { passive: false });
-    
-    window.addEventListener('mouseup', dragEnd);
-    window.addEventListener('touchend', dragEnd);
-    
-    window.addEventListener('mousemove', drag);
-    window.addEventListener('touchmove', drag, { passive: false });
-}
